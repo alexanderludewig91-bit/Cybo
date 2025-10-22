@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cybo - Einstellungen</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <style>
+    .settings-section {
+      margin-bottom: 24px;
+    }
+    
+    .settings-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      background: var(--bg-accent);
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+    }
+    
+    .settings-item-info h3 {
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    
+    .settings-item-info p {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+      background: var(--bg-primary);
+      border-radius: 13px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .toggle-switch.active {
+      background: var(--color-primary);
+    }
+    
+    .toggle-switch-handle {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.3s;
+    }
+    
+    .toggle-switch.active .toggle-switch-handle {
+      transform: translateX(24px);
+    }
+    
+    .input-field {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--bg-accent);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      color: var(--text-primary);
+      font-size: 13px;
+      font-family: monospace;
+    }
+    
+    .input-field:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+    
+    .whitelist-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--bg-accent);
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+    
+    .remove-btn {
+      padding: 4px 8px;
+      background: var(--color-danger);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+    
+    .remove-btn:hover {
+      background: #dc2626;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-left">
+        <div class="logo">
+          <div class="logo-icon">⚙️</div>
+          <div class="logo-text">
+            <h1>Einstellungen</h1>
+            <p>Cybo konfigurieren</p>
+          </div>
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="btn btn-secondary" id="close-btn">Schließen</button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <!-- General Settings -->
+      <div class="card">
+        <div class="card-header">
+          <h2>⚙️ Allgemeine Einstellungen</h2>
+        </div>
+        <div class="card-body">
+          <div class="settings-section">
+            <div class="settings-item">
+              <div class="settings-item-info">
+                <h3>🔔 Benachrichtigungen</h3>
+                <p>Zeige Benachrichtigungen bei hoher Tracker/Ad-Aktivität</p>
+              </div>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <div class="toggle-switch active" id="notifications-toggle">
+                  <div class="toggle-switch-handle"></div>
+                </div>
+                <button class="btn btn-secondary" id="test-notification" style="padding: 6px 12px; font-size: 12px;">
+                  🔔 Test
+                </button>
+              </div>
+            </div>
+            
+            <div class="settings-item">
+              <div class="settings-item-info">
+                <h3>🔒 Auto-HTTPS Upgrade</h3>
+                <p>HTTP-Verbindungen automatisch zu HTTPS upgraden</p>
+              </div>
+              <div class="toggle-switch active" id="https-toggle">
+                <div class="toggle-switch-handle"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ad-Blocker Settings -->
+      <div class="card">
+        <div class="card-header">
+          <h2>🚫 Ad-Blocker</h2>
+        </div>
+        <div class="card-body">
+          <div class="settings-section">
+            <div class="settings-item">
+              <div class="settings-item-info">
+                <h3>Ad-Blocker aktivieren</h3>
+                <p>Blockiere Werbung und Tracker automatisch</p>
+              </div>
+              <div class="toggle-switch active" id="adblocker-toggle">
+                <div class="toggle-switch-handle"></div>
+              </div>
+            </div>
+            
+            <div class="settings-item">
+              <div class="settings-item-info">
+                <h3>Statistiken</h3>
+                <p>Gesamt geblockte Ads:</p>
+              </div>
+              <div style="font-size: 24px; font-weight: 700; color: var(--color-success);" id="total-blocked">0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OpenAI API Key -->
+      <div class="card">
+        <div class="card-header">
+          <h2>🤖 KI-Integration</h2>
+        </div>
+        <div class="card-body">
+          <div class="settings-section">
+            <h3 style="font-size: 14px; margin-bottom: 8px;">OpenAI API Key</h3>
+            <p class="text-muted" style="font-size: 12px; margin-bottom: 12px;">
+              Für KI-Website-Bewertungen. Erhalte deinen Key auf 
+              <a href="https://platform.openai.com/api-keys" target="_blank" style="color: var(--color-primary);">platform.openai.com</a>
+            </p>
+            <input 
+              type="password" 
+              id="api-key-input" 
+              class="input-field" 
+              placeholder="sk-..."
+            >
+            <button class="btn btn-primary" id="save-api-key" style="margin-top: 12px;">
+              💾 API Key speichern
+            </button>
+            <p id="api-key-status" class="text-muted" style="font-size: 12px; margin-top: 8px;"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Whitelist -->
+      <div class="card">
+        <div class="card-header">
+          <h2>📝 Whitelist</h2>
+        </div>
+        <div class="card-body">
+          <p class="text-muted" style="font-size: 13px; margin-bottom: 16px;">
+            Websites auf der Whitelist werden vom Ad-Blocker ausgenommen
+          </p>
+          
+          <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+            <input 
+              type="text" 
+              id="whitelist-input" 
+              class="input-field" 
+              placeholder="z.B. youtube.com"
+              style="flex: 1;"
+            >
+            <button class="btn btn-primary" id="add-whitelist">
+              ➕ Hinzufügen
+            </button>
+          </div>
+          
+          <div id="whitelist-list"></div>
+          
+          <p id="whitelist-empty" class="text-muted" style="text-align: center; padding: 20px; display: none;">
+            Keine Websites auf der Whitelist
+          </p>
+        </div>
+      </div>
+
+      <!-- About -->
+      <div class="card">
+        <div class="card-header">
+          <h2>ℹ️ Über Cybo</h2>
+        </div>
+        <div class="card-body">
+          <p style="margin-bottom: 12px;">
+            <strong>Version:</strong> 1.1.0<br>
+            <strong>Status:</strong> <span style="color: var(--color-success);">✓ Aktiv</span>
+          </p>
+          <p class="text-muted" style="font-size: 13px;">
+            Cybo ist dein persönlicher Security-Begleiter, der dich beim Surfen schützt und informiert.
+          </p>
+          <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-color);">
+            <button class="btn btn-secondary" id="reset-stats">
+              🔄 Statistiken zurücksetzen
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="settings.js"></script>
+</body>
+</html>
+

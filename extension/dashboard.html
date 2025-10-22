@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cybo - Live Security Monitor</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="logo">
+          <div class="logo-icon">🛡️</div>
+          <div class="logo-text">
+            <h1>Cybo</h1>
+            <p>Live Security Monitor</p>
+          </div>
+        </div>
+      </div>
+      <div class="header-right" style="display: flex; gap: 12px; align-items: center;">
+        <button class="btn btn-secondary" id="add-to-whitelist-btn" style="display: none; padding: 6px 12px; font-size: 12px;">
+          ➕ Whitelist
+        </button>
+        <button class="btn btn-secondary" id="delete-cookies-btn" style="display: none; padding: 6px 12px; font-size: 12px;">
+          🗑️ Cookies
+        </button>
+        <div class="status-indicator" id="status">
+          <div class="status-dot"></div>
+          <span>Live</span>
+        </div>
+        <div class="timestamp" id="last-update">-</div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Compact Overview Grid -->
+      <div class="overview-grid">
+        <!-- Current Website -->
+        <div class="card card-primary" id="current-website-card">
+          <div class="compact-header">
+            <div class="compact-title">
+              <span class="compact-icon">🌐</span>
+              <span class="website-url" id="website-url">Warten auf Daten...</span>
+            </div>
+            <div class="live-badge-mini">
+              <div class="pulse-dot"></div>
+              Live
+            </div>
+          </div>
+          <div class="compact-body">
+            <div class="website-title" id="website-title"></div>
+            <div class="meta-row">
+              <span id="https-status" class="meta-badge">🔒 -</span>
+              <span id="request-count" class="meta-badge">📡 -</span>
+            </div>
+          </div>
+          <div class="score-mini" id="security-score">
+            <div class="score-ring" id="score-ring">
+              <span class="score-number" id="score-number">-</span>
+            </div>
+            <span class="score-label-mini">Security</span>
+          </div>
+        </div>
+
+        <!-- Ad-Blocker Compact -->
+        <div class="card card-adblocker" id="adblocker-card">
+          <div class="compact-header">
+            <div class="compact-title">
+              <span class="compact-icon">🚫</span>
+              <span>Ad-Blocker</span>
+            </div>
+            <button class="btn-mini" id="adblocker-toggle">
+              <span id="adblocker-icon">✓</span>
+            </button>
+          </div>
+          <div class="compact-stats">
+            <div class="compact-stat">
+              <div class="compact-stat-value" id="ads-blocked-page">0</div>
+              <div class="compact-stat-label">Seite</div>
+            </div>
+            <div class="compact-stat">
+              <div class="compact-stat-value" id="ads-blocked-session">0</div>
+              <div class="compact-stat-label">Session</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metrics Compact -->
+      <div class="metrics-compact">
+        <div class="metric-compact">
+          <span class="metric-compact-icon">🍪</span>
+          <div class="metric-compact-info">
+            <div class="metric-compact-value" id="cookies-count">0</div>
+            <div class="metric-compact-label">Cookies</div>
+          </div>
+          <div class="metric-compact-status" id="cookies-status">-</div>
+        </div>
+
+        <div class="metric-compact metric-danger">
+          <span class="metric-compact-icon">👁️</span>
+          <div class="metric-compact-info">
+            <div class="metric-compact-value" id="trackers-count">0</div>
+            <div class="metric-compact-label">Tracker</div>
+          </div>
+          <div class="metric-compact-status" id="trackers-status">-</div>
+        </div>
+
+        <div class="metric-compact">
+          <span class="metric-compact-icon">🌐</span>
+          <div class="metric-compact-info">
+            <div class="metric-compact-value" id="third-parties-count">0</div>
+            <div class="metric-compact-label">Third-Parties</div>
+          </div>
+        </div>
+
+        <div class="metric-compact">
+          <span class="metric-compact-icon">📡</span>
+          <div class="metric-compact-info">
+            <div class="metric-compact-value" id="requests-count">0</div>
+            <div class="metric-compact-label">Requests</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Privacy Protection Card -->
+      <div class="card card-privacy">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-icon">🥷</div>
+            <div>
+              <h2>Privacy-Schutz</h2>
+              <p class="card-subtitle">Anti-Fingerprinting aktiv</p>
+            </div>
+          </div>
+          <select class="mode-select" id="privacy-mode-select">
+            <option value="normal">Normal</option>
+            <option value="balanced" selected>Balanced</option>
+            <option value="stealth">Stealth</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+        <div class="card-body">
+          <div class="protection-summary" id="protection-summary">
+            <!-- Wird dynamisch gefüllt -->
+          </div>
+          <div class="privacy-info">
+            <span id="privacy-mode-info">⚖️ Balanced: Guter Kompromiss zwischen Schutz und Kompatibilität</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tracker Statistics Chart -->
+      <div class="card" id="tracker-stats-card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-icon">📊</div>
+            <div>
+              <h2>Tracker-Statistiken</h2>
+              <p class="card-subtitle">Erkannte Tracker nach Kategorie</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="tracker-stats-grid">
+            <div class="stat-item" id="stat-analytics">
+              <div class="stat-item-header">
+                <div class="stat-icon">📈</div>
+                <div class="stat-info">
+                  <div class="stat-label">Analytics</div>
+                  <div class="stat-value" id="analytics-count">0</div>
+                </div>
+              </div>
+            </div>
+            <div class="stat-item" id="stat-advertising">
+              <div class="stat-item-header">
+                <div class="stat-icon">📢</div>
+                <div class="stat-info">
+                  <div class="stat-label">Advertising</div>
+                  <div class="stat-value" id="advertising-count">0</div>
+                </div>
+              </div>
+            </div>
+            <div class="stat-item" id="stat-social">
+              <div class="stat-item-header">
+                <div class="stat-icon">👥</div>
+                <div class="stat-info">
+                  <div class="stat-label">Social Media</div>
+                  <div class="stat-value" id="social-count">0</div>
+                </div>
+              </div>
+            </div>
+            <div class="stat-item" id="stat-fingerprinting">
+              <div class="stat-item-header">
+                <div class="stat-icon">🔍</div>
+                <div class="stat-info">
+                  <div class="stat-label">Fingerprinting</div>
+                  <div class="stat-value" id="fingerprinting-count">0</div>
+                </div>
+              </div>
+            </div>
+            <div class="stat-item" id="stat-cryptomining">
+              <div class="stat-item-header">
+                <div class="stat-icon">⛏️</div>
+                <div class="stat-info">
+                  <div class="stat-label">Cryptomining</div>
+                  <div class="stat-value" id="cryptomining-count">0</div>
+                </div>
+              </div>
+            </div>
+            <div class="stat-item" id="stat-unknown">
+              <div class="stat-item-header">
+                <div class="stat-icon">❓</div>
+                <div class="stat-info">
+                  <div class="stat-label">Andere</div>
+                  <div class="stat-value" id="unknown-count">0</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KI Analysis Card -->
+      <div class="card" id="ai-analysis-card" style="display: none;">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-icon">🤖</div>
+            <div>
+              <h2>KI-Sicherheitsbewertung</h2>
+              <p class="card-subtitle" id="ai-subtitle">Lasse die Website von KI bewerten</p>
+            </div>
+          </div>
+          <button class="btn btn-secondary" id="analyze-btn">
+            <span class="btn-icon">🛡️</span>
+            Mit KI analysieren
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="ai-content" id="ai-content">
+            <p class="text-muted">Klicke auf "Mit KI analysieren" um eine detaillierte Bewertung zu erhalten.</p>
+          </div>
+          <div class="ai-loading" id="ai-loading" style="display: none;">
+            <div class="spinner"></div>
+            <span>Analysiere Website mit KI...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Details Section -->
+      <div class="details-grid" id="details-section" style="display: none;">
+        <!-- Blocked Ads -->
+        <div class="card card-success" id="blocked-ads-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon">🚫</div>
+              <h2>Geblockte Werbung</h2>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="list" id="blocked-ads-list"></div>
+          </div>
+        </div>
+
+        <!-- Trackers -->
+        <div class="card card-danger" id="trackers-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon">👁️</div>
+              <h2>Erkannte Tracker</h2>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="list" id="trackers-list"></div>
+          </div>
+        </div>
+
+        <!-- Third-Parties -->
+        <div class="card" id="third-parties-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon">🌐</div>
+              <h2>Externe Verbindungen</h2>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="list" id="third-parties-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">🌐</div>
+        <h3>Warten auf Daten...</h3>
+        <p>Besuche eine Website, um Live-Daten zu sehen.</p>
+      </div>
+    </main>
+
+    <!-- Bottom Toolbar -->
+    <div class="toolbar">
+      <button class="toolbar-btn" id="refresh-btn" title="Daten aktualisieren">
+        <span>🔄</span>
+        Aktualisieren
+      </button>
+      <button class="toolbar-btn" id="password-check-btn" title="Passwort-Check öffnen">
+        <span>🔐</span>
+        Passwort-Check
+      </button>
+      <button class="toolbar-btn" id="settings-btn" title="Einstellungen">
+        <span>⚙️</span>
+        Einstellungen
+      </button>
+    </div>
+  </div>
+
+  <script src="dashboard-features.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>
+
