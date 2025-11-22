@@ -1,211 +1,201 @@
-# 🛡️ Cybo - Dein persönlicher Security Hub
+🛡️ **Cybo Security Companion – Chrome Browser Extension**
 
-Willkommen bei Cybo! Ein innovativer Cyber Security Hub mit **Live-Browser-Monitoring**, der dir in Echtzeit zeigt, was beim Surfen passiert. Volle Transparenz und Kontrolle über deine Online-Privatsphäre!
-
-## 🌟 Hauptfeatures
-
-### 📡 Live Security Monitor
-**Passives Monitoring während du surfst!** Die Browser Extension überwacht alle Websites in Echtzeit und zeigt dir:
-- 🍪 Welche Cookies gesetzt werden
-- 📊 Welche Tracker aktiv sind (Google Analytics, Facebook, etc.)
-- 🌐 Welche Third-Party-Domains kontaktiert werden
-- 📍 Welche Berechtigungen angefordert werden (Geolocation, Kamera, etc.)
-- 🔒 HTTPS-Status und Verschlüsselung
-- 📡 Alle Network-Requests in Echtzeit
-
-### 🚫 Intelligenter Ad-Blocker
-**Blockiert Werbung & Tracker automatisch!**
-- 🎯 **60+ bekannte Ad-Networks** (Google Ads, Facebook, Amazon, etc.)
-- ⚡ **Schnellere Ladezeiten** - Ads laden gar nicht erst
-- 📉 **Weniger Datenverbrauch** - Keine Ad-Downloads
-- 📊 **Live-Statistiken** - Sieh was geblockt wurde
-- 🎛️ **Ein/Aus-Toggle** - Volle Kontrolle
-- 🔍 **Transparenz** - Kategorisierte Ad-Typen (Google Ads, Popup, Video, etc.)
-
-**Kein manuelles Eintragen nötig** - die App begleitet dich automatisch!
-
-## ✨ Weitere Features
-
-### 🏠 Dashboard
-- Übersichtliche Sicherheitsmetriken auf einen Blick
-- Echtzeit-Security-Score
-- Schnellzugriff auf alle Tools
-- Aktivitätsübersicht
-- **Ad-Blocker Statistiken** mit Ein/Aus-Schalter
-
-### 🔐 Password-Analyzer
-- Analysiert Passwortstärke in Echtzeit
-- Generiert sichere Passwörter
-- Zeigt geschätzte Knackzeit an
-- Gibt konkrete Verbesserungsvorschläge
-- Prüft auf häufige Muster
-
-## 🚀 Quick Start
-
-### Voraussetzungen
-- Node.js 18+ installiert
-- Chrome oder Edge Browser
-- (Optional) OpenAI API Key für KI-Features
-
-### Setup in 3 Schritten
-
-**1. Abhängigkeiten installieren:**
-```bash
-npm install
-```
-
-**2. Datenbank initialisieren:**
-```bash
-npx prisma generate
-npx prisma db push
-```
-
-**3. App & WebSocket-Server starten:**
-```bash
-npm run dev:all
-```
-
-Das startet:
-- ✅ Next.js auf http://localhost:3000
-- ✅ WebSocket-Server auf Port 3001
-
-**4. Browser Extension installieren:**
-
-Siehe detaillierte Anleitung → [EXTENSION_SETUP.md](EXTENSION_SETUP.md)
-
-**Kurz:**
-- Öffne `chrome://extensions/` 
-- Aktiviere "Entwicklermodus"
-- Klicke "Entpackte Erweiterung laden"
-- Wähle den `extension/` Ordner
-- Fertig! 🎉
-
-**5. Live-Monitor öffnen:**
-
-Navigiere zu [http://localhost:3000/live](http://localhost:3000/live) und surfe los!
-
-### Optional: OpenAI API Key
-
-Für den KI-Assistenten (optional):
-
-Erstelle eine `.env` Datei:
-```env
-DATABASE_URL="file:./dev.db"
-OPENAI_API_KEY="dein-api-key"
-```
-
-> API Key unter https://platform.openai.com/api-keys erstellen
-
-## 🎨 Tech Stack
-
-- **Frontend:** Next.js 14 (App Router), React, TypeScript
-- **Styling:** Tailwind CSS
-- **UI Components:** Custom Components mit Radix UI Patterns
-- **Datenbank:** SQLite mit Prisma ORM
-- **KI:** OpenAI GPT-4 (über Vercel AI SDK)
-- **Animationen:** Framer Motion
-- **Icons:** Lucide React
-
-## 📁 Projektstruktur
-
-```
-cybo/
-├── app/                      # Next.js App Router
-│   ├── api/                 # API Routes
-│   │   ├── chat/           # KI-Assistent Endpoint
-│   │   ├── scan-url/       # URL-Scanner API
-│   │   └── check-password/ # Password-Checker API
-│   ├── chat/               # KI-Assistent Page
-│   ├── url-scanner/        # URL-Scanner Page
-│   ├── password-check/     # Password-Checker Page
-│   ├── insights/           # Security Tips Page
-│   ├── activity/           # Aktivitätslog Page
-│   ├── layout.tsx          # Root Layout
-│   ├── page.tsx            # Dashboard (Home)
-│   └── globals.css         # Global Styles
-├── components/              # React Components
-│   ├── ui/                 # UI Basis-Komponenten
-│   ├── Sidebar.tsx         # Navigation
-│   └── SecurityScore.tsx   # Score-Widget
-├── lib/                     # Utilities
-│   ├── prisma.ts           # Prisma Client
-│   └── utils.ts            # Helper Functions
-├── prisma/                  # Datenbank
-│   └── schema.prisma       # DB Schema
-└── public/                  # Static Assets
-```
-
-## 🔒 Sicherheit & Datenschutz
-
-- **Privacy First:** Alle Daten werden lokal in einer SQLite-Datenbank gespeichert
-- **Keine Cloud:** Deine Daten verlassen deinen Rechner nicht (außer KI-Anfragen)
-- **Passwörter:** Werden NIE gespeichert, nur die Analyse-Ergebnisse
-- **Verschlüsselung:** Sensible Daten sollten verschlüsselt werden (Feature für v2)
-
-## 🛠️ Development
-
-```bash
-# Next.js + WebSocket zusammen starten
-npm run dev:all
-
-# Oder separat:
-npm run dev  # Next.js
-npm run ws   # WebSocket-Server
-
-# Production Build
-npm run build
-npm start
-
-# Prisma Studio (DB GUI)
-npx prisma studio
-
-# Linting
-npm run lint
-```
-
-## 🔌 Extension Development
-
-```bash
-# Extension neu laden nach Änderungen:
-# chrome://extensions/ → 🔄 klicken
-
-# Extension Debugging:
-# Rechtsklick auf Extension-Icon → "Hintergrundseite prüfen"
-```
-
-## 📝 Geplante Features (Roadmap)
-
-- [x] Browser Extension für Live-Scanning ✅
-- [x] Netzwerk-Traffic-Monitoring ✅
-- [x] Cookie & Tracker-Erkennung ✅
-- [x] Permission-Monitoring ✅
-- [x] **Ad-Blocker mit 60+ Filter-Regeln** ✅
-- [x] **Live Ad-Blocking Statistiken** ✅
-- [ ] KI-Website-Bewertung (on-demand mit Caching)
-- [ ] Verschlüsselter Passwort-Vault
-- [ ] Integration mit Have I Been Pwned API
-- [x] Tracker-Blocking ✅ (via Ad-Blocker)
-- [ ] Desktop-App mit Electron
-- [ ] Dark/Light Mode Toggle
-- [ ] Export von Reports (PDF)
-- [ ] Multi-Language Support
-- [ ] Push-Notifications bei Gefahren
-- [ ] Historie aller besuchten Websites
-- [ ] Datenschutz-Score pro Domain
-
-## 🤝 Beitragen
-
-Dies ist ein persönliches Projekt, aber Feedback und Vorschläge sind willkommen!
-
-## 📄 Lizenz
-
-Dieses Projekt ist für den persönlichen Gebrauch erstellt.
-
-## 🙏 Credits
-
-Entwickelt mit ❤️ für mehr Sicherheit im Netz.
+Cybo ist eine **reine Chrome-Extension (Manifest V3)**, die dich beim Surfen in Echtzeit schützt: Tracking erkennen, Werbung blockieren, Privacy verbessern und Passwörter prüfen – alles **lokal im Browser**, ohne separaten Server.
 
 ---
 
-**Hinweis:** Cybo ist ein Tool zur Unterstützung deiner Cybersicherheit. Es ersetzt nicht professionelle Sicherheitslösungen wie Antivirensoftware oder Firewalls, sondern ergänzt diese.
+## 🌟 Features im Überblick
+
+### 📡 Live Security Monitor (Dashboard)
+Das `dashboard.html` zeigt dir für die aktuell besuchte Website:
+- **🍪 Cookies**: Anzahl und Basis-Eigenschaften (Secure, HttpOnly, SameSite)
+- **📊 Tracker-Erkennung**: Zuordnung zu Kategorien (Analytics, Advertising, Social, Fingerprinting, Cryptomining, …)
+- **🌐 Third-Parties**: Externe Domains, mit denen die Seite spricht
+- **📡 Network-Requests**: Übersicht der geladenen Ressourcen
+- **🔒 HTTPS-Status & Auto-HTTPS**: Erkennung von HTTP/HTTPS, automatisches Upgrade auf HTTPS (falls möglich)
+- **🚫 Ad-Blocker-Statistiken**: Geblockte Ads pro Seite und in der Session
+- **🥷 Privacy-Modus**: Normal / Balanced / Stealth inkl. Header-Anpassungen und Tracking-Parameter-Cleanup
+
+Das Dashboard liest seine Daten direkt aus `chrome.storage.local`, die vom `background.js` kontinuierlich aktualisiert werden – **kein externer Server, kein WebSocket**.
+
+### 🚫 Intelligenter Ad-Blocker
+Kombination aus **declarativeNetRequest-Regeln** (`rules.json`) und Logik in `background.js`:
+- Blockiert Anfragen an bekannte Ad- und Tracking-Domains
+- Erfasst zusätzlich Ads heuristisch (URL-Muster wie `/ads/`, `adserver`, Banner-Pfade)
+- Zählt geblockte Ads pro Seite und global
+- Zeigt Live-Zähler als **Badge** am Extension-Icon
+- **Whitelist-Unterstützung** über das Settings-UI (Domains von Blocking ausnehmen)
+
+### 🥷 Privacy Protection
+Mehrstufiger Schutz direkt im Background-Service-Worker:
+- Entfernt gängige **Tracking-Parameter** (z. B. `utm_*`, `fbclid`, `gclid`, …) aus URLs
+- Setzt `Accept-Language`, `Referer` und andere Header je nach Modus restriktiver
+- Entfernt bei Bedarf `ETag`-Header, um Cache-basiertes Tracking zu erschweren
+- Ignoriert Browser-interne Seiten und `localhost`, damit Entwicklung nicht gestört wird
+
+### 🔐 Passwort-Check
+Die Seite `password-check.html` bietet:
+- **Stärke-Score (0–100)** mit Visualisierung
+- Einschätzung wie *„sehr schwach“*, *„mittel“*, *„sehr stark“* etc.
+- Geschätzte **„Knackzeit“** basierend auf Länge und Zeichentypen
+- Checkliste für:
+  - Groß-/Kleinbuchstaben
+  - Zahlen
+  - Sonderzeichen
+  - Mindestlänge
+- **Generator für sichere Passwörter** und Kopierfunktion  
+Alle Berechnungen laufen **lokal im Browser**, Passwörter werden **nicht gespeichert**.
+
+### ⚙️ Einstellungen
+`settings.html` bündelt alle wichtigen Schalter:
+- **Benachrichtigungen** ein/aus (Warnung bei vielen Trackern/Ads)
+- **Auto-HTTPS Upgrade** aktivieren/deaktivieren
+- **Ad-Blocker global** aktivieren/deaktivieren
+- **Whitelist-Verwaltung** (Domains hinzufügen/entfernen)
+- Anzeige der **gesamt geblockten Ads**
+- Eingabe eines **OpenAI API Keys** (für KI-Analysen, lokal im Storage abgelegt)
+
+### 🔔 Benachrichtigungen
+Über `chrome.notifications`:
+- Hinweis bei **hoher Tracker-Aktivität** auf einer Seite
+- Hinweis bei besonders vielen geblockten Ads
+- Test-Notification aus den Einstellungen heraus (zum Überprüfen der Browser-Settings)
+
+---
+
+## 🚀 Installation (Chrome – Entwicklermodus)
+
+### 1. Repository klonen / herunterladen
+Du brauchst **kein Node.js und keinen Build-Step**, um die Extension zu benutzen.
+
+```bash
+git clone <dein-repo-url>
+cd cybo
+```
+
+### 2. Icons bereitstellen
+Im Ordner `extension/icons/` werden folgende Dateien erwartet:
+- `icon16.png`  (16×16 px)
+- `icon48.png`  (48×48 px)
+- `icon128.png` (128×128 px)
+
+Details siehe `extension/icons/README.md`. Für einen schnellen Start kannst du einfach drei beliebige PNGs in der passenden Größe verwenden und entsprechend benennen.
+
+### 3. Extension in Chrome laden
+1. Öffne `chrome://extensions/`
+2. Aktiviere oben rechts **„Entwicklermodus“**
+3. Klicke auf **„Entpackte Erweiterung laden“**
+4. Wähle den Ordner `extension/` aus diesem Projekt
+5. Die Extension **„Cybo Security Companion“** sollte nun erscheinen
+
+### 4. Erste Schritte
+- Besuche eine beliebige Website (z. B. `https://github.com`)
+- Klicke auf das **Cybo-Icon** in der Toolbar, um das **Popup** zu sehen
+- Öffne das **Dashboard**:
+  - entweder über den Button „Dashboard öffnen“ im Popup
+  - oder per Shortcut (**Strg+Umschalt+D** / **Cmd+Umschalt+D**) – siehe `manifest.json`
+
+---
+
+## 🔍 Wichtige Dateien & Struktur (Extension-Teil)
+
+```text
+extension/
+├── manifest.json           # Manifest V3 Konfiguration
+├── background.js           # Service Worker: Tracking, Ads, Privacy, Badge, Storage
+├── content.js              # Content Script: Kommunikation / Hooks auf Seitenebene
+├── privacy-injector.js     # Zusätzliche Privacy-Logik im Kontext der Seite
+├── injected.js             # Code, der direkt in Seiten injiziert werden kann
+├── tracker-database.js     # Erweiterte Liste bekannter Tracker
+├── rules.json              # declarativeNetRequest-Regeln für Ad-Blocking
+├── privacy-rules.json      # Zusätzliche declarativeNetRequest-Regeln für Privacy
+├── popup.html / popup.js   # Kompaktes Popup mit Kennzahlen zur aktuellen Seite
+├── dashboard.html          # Vollbild-Dashboard („Live Security Monitor“)
+├── dashboard.js            # Dashboard-Logik & Rendering
+├── dashboard-features.js   # Hilfsfunktionen für das Dashboard
+├── password-check.html/js  # Passwort-Analyse-UI und Logik
+├── settings.html/js        # Einstellungen (Ad-Blocker, Whitelist, Notifications, API Key)
+└── icons/                  # Icons für Extension & Notifications
+```
+
+> Hinweis: Im Repo existieren zusätzlich noch Ordner wie `app/`, `lib/`, `prisma/` usw.  
+> Diese stammen von einer früheren Next.js-Variante und sind für die **aktuelle reine Extension-Version nicht mehr erforderlich**.
+
+---
+
+## 🔒 Datenschutz
+
+- **Lokal zuerst**: Analyse-Daten (Tracker, Requests, Cookies, Einstellungen) werden über `chrome.storage.local` gespeichert
+- **Keine eigene Server-Komponente**: Es gibt keinen zentralen Backend-Server von Cybo
+- **Passwörter**:
+  - werden nur im RAM verarbeitet
+  - werden nicht persistiert
+  - der Password-Check läuft vollständig lokal
+- **OpenAI API Key** (optional):
+  - wird im lokalen Browser-Storage abgelegt
+  - wird nur genutzt, wenn du explizit KI-Funktionen aktivierst/aufrufst
+
+Cybo ist ein **unterstützendes Tool** und ersetzt keine professionellen Sicherheitslösungen wie Antivirensoftware oder Firewalls.
+
+---
+
+## 🛠️ Entwicklung & Anpassung
+
+Da die Extension ohne Build-Step läuft, kannst du direkt im `extension/`-Ordner arbeiten:
+
+- **Ad-Blocking-Regeln anpassen**  
+  - `rules.json` für declarativeNetRequest-Regeln
+  - zusätzliche Heuristiken in `background.js` (`AD_DOMAINS`, `isAd`, `getAdType`)
+
+- **Tracker-Erkennung erweitern**  
+  - `TRACKER_DOMAINS` und Kategorien in `background.js`
+  - erweiterte Datenbank in `tracker-database.js`
+
+- **UI anpassen**  
+  - `dashboard.html` / `dashboard.css` / `dashboard.js`
+  - `popup.html` / `popup.js`
+  - `password-check.html` / `password-check.js`
+  - `settings.html` / `settings.js`
+
+**Reload nach Änderungen:**  
+- `chrome://extensions/` öffnen  
+- Bei Cybo auf den **🔄-Button (Neu laden)** klicken  
+- Optional Devtools für Background/Popup/Dashboard öffnen für Logs
+
+---
+
+## 📝 Roadmap (aktuelle Vision)
+
+- [x] Manifest V3 Chrome-Extension
+- [x] Live-Monitor mit Tracker-/Ad-/Cookie-Übersicht
+- [x] declarativeNetRequest-basierter Ad-Blocker
+- [x] Privacy-Header-Anpassungen & Tracking-Parameter-Entfernung
+- [x] Passwort-Check mit Score, Knackzeit & Generator
+- [x] Whitelist für Domains
+- [x] Notifications bei hoher Tracker-/Ad-Aktivität
+- [ ] Erweiterte KI-Website-Bewertung direkt aus dem Dashboard
+- [ ] Erweiterte Report-Funktionen (Export/Sharing)
+- [ ] Besseres Theming (Dark/Light, mehr Personalisierung)
+
+---
+
+## 🤝 Beitragen & Feedback
+
+Das Projekt ist aktuell ein persönliches/lernorientiertes Projekt, aber:
+- **Feedback, Bugreports und Ideen** sind jederzeit willkommen
+- PRs sind möglich, sollten sich aber klar auf den Extension-Teil (`extension/`) beziehen
+
+---
+
+## 📄 Lizenz & Haftung
+
+- Erstellung für **persönlichen und experimentellen Gebrauch**
+- Keine Garantie auf Vollständigkeit oder Fehlerfreiheit
+- Nutzung auf eigenes Risiko; prüfe rechtliche Vorgaben in deinem Land (insb. bzgl. Blocking/Tracking)
+
+---
+
+🙏 Entwickelt mit ❤️ für mehr Transparenz und Sicherheit beim Surfen.
+
+**Hinweis:** Cybo ergänzt bestehende Sicherheitsmechanismen (Browser-Sandbox, Antivirensoftware, Firewalls) und soll diese **nicht** ersetzen.
 

@@ -1,201 +1,174 @@
-# 🛡️ Cybo Browser Extension - Installation & Setup
+# 🛡️ Cybo Browser Extension – Installation & Setup (Standalone)
+
+Cybo läuft als **vollständig eigenständige Chrome-Extension** – es sind **kein Node.js, kein Server und keine Datenbank** mehr nötig.
+
+---
 
 ## 📋 Voraussetzungen
 
 - Chrome oder Edge Browser
-- Node.js installiert
-- Cybo Next.js App läuft
+- Zugriff auf dieses Repository (bzw. den `extension/` Ordner)
+
+Optional (für KI-Funktionen):
+- Eigener **OpenAI API Key**
+
+---
 
 ## 🚀 Schritt-für-Schritt Installation
 
 ### 1. Extension Icons erstellen
 
-Die Extension benötigt Icons in den Größen 16x16, 48x48 und 128x128 Pixel.
+Die Extension benötigt drei Icons im Ordner `extension/icons/`:
+- `icon16.png`  (16×16 px)
+- `icon48.png`  (48×48 px)
+- `icon128.png` (128×128 px)
 
 **Schnellste Methode:**
-```bash
-# Im extension/icons/ Ordner
-# Erstelle 3 PNG-Dateien: icon16.png, icon48.png, icon128.png
-# Du kannst temporär beliebige PNG-Bilder verwenden
-```
+- Nimm drei beliebige PNG-Bilder in den passenden Größen
+- Benenne sie in `icon16.png`, `icon48.png`, `icon128.png` um
+- Lege sie in `extension/icons/` ab
 
-**Professionelle Methode:**
-- Nutze https://favicon.io/favicon-generator/
-- Generiere Icons mit dem 🛡️ Symbol oder "C" für Cybo
-- Lade herunter und benenne um
+**Schönere Methode:**
+- Nutze `https://favicon.io/favicon-generator/`
+- Erstelle ein Icon mit 🛡️ oder „C“
+- Exportiere die PNGs in mehreren Größen und kopiere sie in `extension/icons/`
 
-### 2. Abhängigkeiten installieren
+---
 
-```bash
-# Im Hauptverzeichnis (Cybo/)
-npm install
-```
-
-### 3. WebSocket-Server starten
-
-Der WebSocket-Server ermöglicht die Kommunikation zwischen Extension und App.
-
-```bash
-# Terminal 1: Next.js Dev Server + WebSocket Server zusammen
-npm run dev:all
-
-# Oder separat:
-# Terminal 1: Next.js
-npm run dev
-
-# Terminal 2: WebSocket Server
-npm run ws
-```
-
-Du solltest sehen:
-```
-✓ Ready on http://localhost:3000
-🚀 WebSocket Server läuft auf Port 3001
-```
-
-### 4. Browser Extension installieren
+### 2. Browser Extension installieren
 
 #### Chrome:
-1. Öffne Chrome
-2. Gehe zu `chrome://extensions/`
-3. Aktiviere **"Entwicklermodus"** (oben rechts)
-4. Klicke auf **"Entpackte Erweiterung laden"**
-5. Wähle den `extension/` Ordner aus deinem Cybo-Projekt
-6. Die Extension sollte jetzt erscheinen! 🎉
+1. Öffne `chrome://extensions/`
+2. Aktiviere oben rechts **„Entwicklermodus“**
+3. Klicke **„Entpackte Erweiterung laden“**
+4. Wähle den Ordner `extension/` aus diesem Projekt
+5. Die Extension **„Cybo Security Companion“** sollte erscheinen 🎉
 
 #### Edge:
-1. Öffne Edge
-2. Gehe zu `edge://extensions/`
-3. Aktiviere **"Entwicklermodus"** (links unten)
-4. Klicke auf **"Entpackt laden"**
-5. Wähle den `extension/` Ordner aus
-6. Fertig! 🎉
+1. Öffne `edge://extensions/`
+2. Aktiviere **„Entwicklermodus“**
+3. Klicke **„Entpackt laden“**
+4. Wähle den Ordner `extension/`
+5. Fertig 🎉
 
-### 5. Extension testen
+---
 
-1. Klicke auf das Cybo Extension-Icon in deiner Browser-Toolbar
-2. Du solltest ein Popup sehen mit aktuellen Stats
-3. Öffne die Cybo App: http://localhost:3000/live
-4. Besuche eine beliebige Website (z.B. github.com)
-5. 🎊 **Das Live-Dashboard sollte jetzt Daten anzeigen!**
+### 3. Cybo verwenden
+
+1. Besuche eine Website (z. B. `https://github.com`)
+2. Klicke auf das **Cybo-Icon** in der Toolbar
+3. Im **Popup** siehst du:
+   - Cookies
+   - Tracker
+   - Third-Parties
+   - Requests
+   - Geblockte Ads
+4. Klicke im Popup auf **„Dashboard öffnen“**, um das große Live-Dashboard (`dashboard.html`) zu starten  
+   Alternativ kannst du den Shortcut aus `manifest.json` nutzen (standardmäßig `Strg+Umschalt+D` bzw. `Cmd+Umschalt+D`).
+
+---
 
 ## 📊 Was die Extension überwacht
 
 ### ✅ Automatisch erkannt:
-- **🍪 Cookies** - Alle gesetzten Cookies
-- **📊 Tracker** - Bekannte Tracking-Domains (Google Analytics, Facebook, etc.)
-- **🌐 Third-Party Connections** - Externe Domains, die kontaktiert werden
-- **📡 Network Requests** - Alle HTTP/HTTPS-Requests
-- **🔒 HTTPS-Status** - Verschlüsselung der Verbindung
+- **🍪 Cookies** – gesetzte Cookies inkl. Basis-Infos (Domain, Secure, HttpOnly, SameSite)
+- **📊 Tracker** – bekannte Tracking-Domains mit Kategorien (Analytics, Advertising, Social, Fingerprinting, Cryptomining, …)
+- **🌐 Third-Party-Verbindungen** – externe Hosts, mit denen die Seite kommuniziert
+- **📡 Network Requests** – HTTP/HTTPS-Requests (Typ, Domain)
+- **🔒 HTTPS-Status & Auto-HTTPS** – Erkennung von HTTP/HTTPS, automatisches Upgrade, wo möglich
 
-### ⚠️ Permission-Tracking:
-- **📍 Geolocation** - Standort-Abfragen
-- **🎥 Camera/Microphone** - Medien-Zugriff
-- **🔔 Notifications** - Benachrichtigungs-Anfragen
-- **📦 LocalStorage** - Datenspeicherung (optional)
+### ⚠️ Permission-/Privacy-Tracking:
+- **📍 Geolocation**, **🎥 Kamera/Mikrofon**, **🔔 Notifications** (über Permissions / Events)
+- Entfernen gängiger Tracking-Parameter (`utm_*`, `fbclid`, `gclid`, …)
+- Anpassen/Entfernen von `Referer`-/`ETag`-Headern je nach Privacy-Modus
 
-## 🎯 Verwendung
+---
 
-### Live-Dashboard
-- Öffne http://localhost:3000/live
-- Extension muss installiert sein
-- Besuche beliebige Websites
-- Sieh in Echtzeit, was passiert!
+## 🎯 Verwendung im Detail
 
-### Extension Popup
-- Klicke auf Extension-Icon
-- Sieh schnelle Stats der aktuellen Website
-- Klicke "Dashboard öffnen" für Details
+### Live-Dashboard (`dashboard.html`)
+- Wird über das Popup oder den Shortcut geöffnet
+- Zeigt:
+  - aktuelle Website-URL und Titel
+  - Security-Score
+  - Tracker nach Kategorie
+  - Cookies, Third-Parties, Requests
+  - Ad-Blocker-Status und Statistiken
+  - Privacy-Status (Normal/Balanced/Stealth)
+
+### Extension Popup (`popup.html`)
+- Kompakte Übersicht zur aktuellen Seite:
+  - Cookies
+  - Tracker
+  - Third-Parties
+  - Requests
+  - Ads geblockt
+- Button **„Dashboard öffnen“**
+
+---
 
 ## 🔧 Troubleshooting
 
-### Extension verbindet nicht?
-```bash
-# Prüfe ob WebSocket-Server läuft:
-npm run ws
+### Extension erscheint nicht in Chrome?
+- Entwicklermodus aktiviert?
+- Wurde der **Ordner `extension/`** gewählt (nicht das Projekt-Root)?
+- Sind die Icons in `extension/icons/` vorhanden?
 
-# Sollte zeigen:
-# 🚀 WebSocket Server läuft auf Port 3001
-```
+### Dashboard zeigt keine Daten?
+- Prüfe, ob du eine „echte“ Website geöffnet hast (keine `chrome://`-, `about:`- oder `localhost`-Seite)
+- Warte ein paar Sekunden und aktualisiere das Dashboard-Fenster
+- Schau in die Devtools (F12) des Dashboards und des Background-Scripts:
+  - `chrome://extensions/` → „Details“ → „Hintergrundseite prüfen“
 
-### Keine Daten im Dashboard?
-1. Extension installiert? (chrome://extensions/)
-2. WebSocket-Server läuft? (Port 3001)
-3. Firewall blockiert Port 3001?
-4. Browser-Console öffnen (F12) → Fehler prüfen
+### Ads/Tracker werden nicht (oder zu aggressiv) geblockt?
+- Öffne `settings.html` über das Dashboard (Toolbar → Einstellungen)
+  - Prüfe, ob der **Ad-Blocker aktiviert** ist
+  - Prüfe, ob die Domain evtl. auf der **Whitelist** steht
+- Nach Änderungen Website neu laden
 
-### Extension lädt nicht?
-1. Icons vorhanden? (extension/icons/)
-2. Entwicklermodus aktiviert?
-3. Richtigen Ordner gewählt? (extension/)
+---
 
 ## 🎨 Extension anpassen
 
-### Tracker-Liste erweitern
-Bearbeite `extension/background.js`:
-```javascript
-const KNOWN_TRACKERS = [
-  'google-analytics.com',
-  'deine-tracker-domain.com', // Füge hier hinzu
-  // ...
-];
-```
+### Tracker-/Ad-Erkennung erweitern
+- `extension/background.js`:
+  - `TRACKER_DOMAINS` / `TRACKER_CATEGORIES`
+  - `AD_DOMAINS`, `isAd`, `getAdType`
+- `extension/tracker-database.js`:
+  - erweiterte Tracker-Liste
 
-### Popup-Design ändern
-Bearbeite `extension/popup.html` und `popup.js`
+### UI anpassen
+- Popup: `extension/popup.html`, `popup.js`
+- Dashboard: `extension/dashboard.html`, `dashboard.css`, `dashboard.js`, `dashboard-features.js`
+- Passwort-Check: `extension/password-check.html`, `password-check.js`
+- Einstellungen: `extension/settings.html`, `settings.js`
 
-## 📝 Development-Tipps
+Nach jeder Änderung:
+1. `chrome://extensions/` öffnen
+2. Bei Cybo auf **„Neu laden“ (🔄)** klicken
 
-### Extension neu laden nach Änderungen:
-1. Gehe zu `chrome://extensions/`
-2. Klicke auf 🔄 bei deiner Extension
-3. Oder: Extension entfernen → neu laden
-
-### Debugging:
-- **Background Script:** chrome://extensions/ → "Details" → "Hintergrundseite"
-- **Content Script:** F12 in Website → Console
-- **Popup:** Rechtsklick auf Extension-Icon → "Popup prüfen"
-
-### Logs anzeigen:
-```javascript
-// In Browser-Console (F12):
-// Background-Script-Logs sehen
-// Content-Script-Logs sehen
-
-// In Extension Background:
-console.log('🛡️ Cybo...')
-```
+---
 
 ## 🚀 Produktiv nutzen
 
-Wenn du die Extension dauerhaft nutzen willst:
+Für den privaten Gebrauch reicht der **Entwicklermodus** vollkommen aus:
+- Extension bleibt zwischen Browser-Neustarts erhalten
+- Wird automatisch beim Chrome-Start geladen
 
-### Option 1: Im Entwicklermodus behalten
-- Extension bleibt geladen
-- Bei jedem Chrome-Start aktiv
-- Warnung "Deaktivieren Sie Erweiterungen im Entwicklermodus"
-
-### Option 2: Als .crx packen (Chrome Web Store)
-- Für private Nutzung nicht nötig
-- Für öffentliche Veröffentlichung: Chrome Web Store Developer Account nötig
-
-## 💡 Nächste Schritte
-
-- ✅ Extension läuft
-- ✅ Live-Dashboard zeigt Daten
-- 🔜 Erkunde verschiedene Websites
-- 🔜 Sieh welche Tracker blockiert werden
-- 🔜 Lerne über deine digitale Privatsphäre!
+Für eine Veröffentlichung im Chrome Web Store müsstest du:
+- Ein Entwicklerkonto bei Google anlegen
+- Die Extension nach den Store-Richtlinien paketieren und einreichen  
+(das ist aktuell **nicht** Teil dieser Doku und für lokale Nutzung nicht nötig).
 
 ---
 
 ## 🆘 Hilfe gebraucht?
 
 Wenn etwas nicht funktioniert:
-1. Prüfe die Browser-Console (F12)
-2. Prüfe die Extension-Background-Logs
-3. Prüfe ob WebSocket-Server läuft
-4. Stelle sicher, dass Next.js auf Port 3000 läuft
+1. Prüfe **Browser-Console** (F12) im Dashboard
+2. Prüfe **Background-Logs** (`chrome://extensions/` → „Details“ → „Hintergrundseite“)
+3. Stelle sicher, dass du eine „normale“ Website geöffnet hast (kein interner Chrome-Tab)
+4. Extension einmal **neu laden** und Seite neu öffnen
 
-**Viel Erfolg! 🛡️**
+**Viel Erfolg & sicheres Surfen! 🛡️**
 

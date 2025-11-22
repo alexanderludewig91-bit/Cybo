@@ -1,83 +1,60 @@
-# 🚀 Cybo - Quick Start Guide
+# 🚀 Cybo – Quick Start (Standalone Extension)
 
-So bringst du Cybo in **unter 5 Minuten** zum Laufen!
+So hast du Cybo in **unter 2 Minuten** als reine Chrome-Extension am Start – ganz ohne Server, Datenbank oder Node.js.
 
-## 1️⃣ Installation (1 Min)
-
-```bash
-# Abhängigkeiten installieren
-npm install
-
-# Datenbank erstellen
-npx prisma generate
-npx prisma db push
-```
-
-## 2️⃣ Server starten (30 Sek)
+## 1️⃣ Projekt holen
 
 ```bash
-# Startet Next.js + WebSocket Server zusammen
-npm run dev:all
+git clone <dein-repo-url>
+cd cybo
 ```
 
-✅ Warte bis du siehst:
-```
-✓ Ready on http://localhost:3000
-🚀 WebSocket Server läuft auf Port 3001
-```
+## 2️⃣ Icons vorbereiten (1 Min)
 
-## 3️⃣ Extension Icons (1 Min)
+- Lege im Ordner `extension/icons/` drei Dateien an:
+  - `icon16.png`
+  - `icon48.png`
+  - `icon128.png`
+- Für einen schnellen Start kannst du einfach drei beliebige PNGs in der passenden Größe verwenden und entsprechend benennen.  
+  Details: siehe `extension/icons/README.md`.
 
-**Schnelle Lösung:**
-Lade 3 beliebige PNG-Bilder herunter und speichere sie als:
-- `extension/icons/icon16.png`
-- `extension/icons/icon48.png`
-- `extension/icons/icon128.png`
+## 3️⃣ Extension installieren (1 Min)
 
-**Oder:** Nutze https://favicon.io/favicon-generator/
-
-## 4️⃣ Extension installieren (1 Min)
-
-1. Öffne Chrome/Edge
+1. Öffne Chrome (oder Edge)
 2. Gehe zu `chrome://extensions/`
-3. Aktiviere **"Entwicklermodus"** (Toggle oben rechts)
-4. Klicke **"Entpackte Erweiterung laden"**
-5. Wähle den `extension/` Ordner aus deinem Cybo-Projekt
-6. ✅ Fertig!
+3. Aktiviere oben rechts **„Entwicklermodus“**
+4. Klicke **„Entpackte Erweiterung laden“**
+5. Wähle den Ordner `extension/`
+6. ✅ Fertig – die Extension „Cybo Security Companion“ sollte jetzt sichtbar sein
 
-## 5️⃣ Live-Monitor öffnen (30 Sek)
+## 4️⃣ Cybo nutzen
 
-1. Öffne http://localhost:3000/live
-2. Besuche eine Website (z.B. github.com)
-3. 🎉 **Sieh Live-Daten im Dashboard!**
-
----
-
-## 🎯 Das war's!
+- Besuche eine Website (z. B. `https://github.com`)
+- Klicke auf das **Cybo-Icon** in der Toolbar, um das **Popup** mit den wichtigsten Kennzahlen zu sehen
+- Öffne das **Dashboard**:
+  - Im Popup auf **„Dashboard öffnen“** klicken  
+  - oder den Tastatur-Shortcut nutzen (standardmäßig `Strg+Umschalt+D` / `Cmd+Umschalt+D`)
 
 Du solltest jetzt sehen:
 - Anzahl der Cookies
-- Erkannte Tracker
-- Third-Party-Verbindungen
+- Erkannte Tracker (inkl. Kategorien)
+- Third-Party-Domains
 - Network-Requests
-- Security-Score
-
-## 🔥 Pro-Tipp
-
-Klicke auf das Extension-Icon in deiner Browser-Toolbar für Quick-Stats!
-
-## ❓ Probleme?
-
-**Extension verbindet nicht?**
-- Prüfe: WebSocket-Server läuft? (`npm run ws`)
-- Prüfe: Extension installiert? (`chrome://extensions/`)
-
-**Keine Daten?**
-- Besuche eine Website
-- Warte 2-3 Sekunden
-- Aktualisiere das Live-Dashboard (F5)
+- Geblockte Werbung & Security-Einschätzung
 
 ---
 
-**Mehr Details?** → Siehe [EXTENSION_SETUP.md](EXTENSION_SETUP.md)
+## 🔥 Pro-Tipps
+
+- Im Dashboard kannst du:
+  - den **Ad-Blocker** ein-/ausschalten
+  - den **Privacy-Modus** wählen (Normal / Balanced / Stealth)
+  - den **Passwort-Check** und die **Einstellungen** öffnen
+- Nach Änderungen am Code im Ordner `extension/`:
+  - `chrome://extensions/` öffnen
+  - bei Cybo auf **„Neu laden“ (🔄)** klicken
+
+---
+
+**Mehr Details & Troubleshooting:** → siehe `EXTENSION_SETUP.md` und `STANDALONE_SETUP.md`.
 
